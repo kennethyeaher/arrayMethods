@@ -11,11 +11,13 @@
   <img alt="HTML5" src="https://img.shields.io/badge/HTML5-E34F26?style=flat-square&amp;logo=html5&amp;logoColor=white">
   <img alt="CSS" src="https://img.shields.io/badge/CSS-663399?style=flat-square&amp;logo=css&amp;logoColor=white">
   <img alt="JavaScript" src="https://img.shields.io/badge/JavaScript-B89B00?style=flat-square&amp;logo=javascript&amp;logoColor=white">
+  <a href="https://github.com/kennethyeaher/arrayMethods/actions/workflows/browser-checks.yml"><img alt="Browser checks status" src="https://img.shields.io/github/actions/workflow/status/kennethyeaher/arrayMethods/browser-checks.yml?branch=main&amp;style=flat-square&amp;label=browser%20checks"></a>
   <img alt="Zero runtime dependencies" src="https://img.shields.io/badge/runtime%20dependencies-0-096974?style=flat-square">
 </p>
 
 <p align="center">
-  <a href="#class-requirements"><strong>Class requirements</strong></a> &nbsp; · &nbsp;
+  <a href="https://kennethyeaher.github.io/arrayMethods/tutorial_5_arrays/"><strong>Try the explorer ↗</strong></a> &nbsp; · &nbsp;
+  <a href="#class-requirements">Class requirements</a> &nbsp; · &nbsp;
   <a href="#array-methods-and-intent">Array methods</a> &nbsp; · &nbsp;
   <a href="#run-locally">Run locally</a> &nbsp; · &nbsp;
   <a href="#verification">Verification</a>
