@@ -281,9 +281,12 @@ test("keyboard activation and explanation disclosure work", async () => {
     await page.locator("#filter-button").focus();
     await page.keyboard.press("Space");
     assert.equal(await page.locator("#filtered-list li").count(), 5);
-    await page.locator("summary").first().click();
+    await page.locator(".method-section summary").first().click();
     assert.equal(
-      await page.locator("details").first().getAttribute("open"),
+      await page
+        .locator(".method-section details")
+        .first()
+        .getAttribute("open"),
       "",
     );
     assert.deepEqual(errors, []);
@@ -313,9 +316,8 @@ for (const width of [320, 390, 768, 1440]) {
       assert.equal(columns, width <= 760 ? 1 : 2);
       if (process.env.CAPTURE_PREVIEWS === "1" && [390, 1440].includes(width)) {
         await fs.mkdir(path.join(root, "docs/assets"), { recursive: true });
-        await page.screenshot({
+        await page.locator("#explorer").screenshot({
           path: path.join(root, `docs/assets/preview-${width}.png`),
-          fullPage: true,
         });
       }
       assert.deepEqual(errors, []);
@@ -334,6 +336,283 @@ test("repository entry point redirects to the exercise", async () => {
       await page.locator("h1").textContent(),
       "One table.Four perspectives.",
     );
+    assert.deepEqual(errors, []);
+  } finally {
+    await page.close();
+  }
+});
+
+test("explorer combines search, cuisine, budget, and rating, then resets", async () => {
+  const { page, errors } = await openPage();
+  try {
+    assert.equal(await page.locator(".explorer-card").count(), 8);
+    await page.locator("#search").fill("  BBQ  ");
+    assert.deepEqual(
+      await page.locator(".explorer-card h3").allTextContents(),
+      ["Seoul Kitchen"],
+    );
+    await page.locator("#cuisine").selectOption("Italian");
+    assert.equal(await page.locator("#explorer-empty").isVisible(), true);
+    await page.locator("#empty-reset").click();
+    await page.locator("#price").selectOption("2");
+    assert.equal(await page.locator(".explorer-card").count(), 5);
+    await page.locator("#rating").selectOption("4.3");
+    assert.deepEqual(
+      await page.locator(".explorer-card h3").allTextContents(),
+      [names[0], names[4], names[7]],
+    );
+    await page.locator("#cuisine").selectOption("Korean");
+    assert.deepEqual(
+      await page.locator(".explorer-card h3").allTextContents(),
+      [names[7]],
+    );
+    await page.locator("#reset-filters").click();
+    assert.equal(await page.locator(".explorer-card").count(), 8);
+    assert.equal(await page.locator("#search").inputValue(), "");
+    assert.deepEqual(errors, []);
+  } finally {
+    await page.close();
+  }
+});
+
+test("explorer ordering and favorites keep deeply frozen source records unchanged", async () => {
+  const { page, errors } = await openPage();
+  try {
+    const original = await page.evaluate(() => JSON.stringify(restaurants));
+    await page.evaluate(() => {
+      restaurants.forEach((restaurant) => {
+        Object.freeze(restaurant.specialties);
+        Object.freeze(restaurant);
+      });
+      Object.freeze(restaurants);
+    });
+    await page.locator("#sort").selectOption("rating");
+    assert.deepEqual(
+      await page.locator(".explorer-card h3").allTextContents(),
+      [
+        names[3],
+        names[6],
+        names[0],
+        names[7],
+        names[4],
+        names[1],
+        names[5],
+        names[2],
+      ],
+    );
+    await page.locator("#sort").selectOption("price");
+    assert.deepEqual(
+      await page.locator(".explorer-card h3").allTextContents(),
+      [
+        names[2],
+        names[4],
+        names[0],
+        names[7],
+        names[5],
+        names[6],
+        names[1],
+        names[3],
+      ],
+    );
+    await page.locator("#sort").selectOption("name");
+    assert.deepEqual(
+      await page.locator(".explorer-card h3").allTextContents(),
+      [
+        names[2],
+        names[6],
+        names[0],
+        names[4],
+        names[1],
+        names[7],
+        names[5],
+        names[3],
+      ],
+    );
+    await page.locator('[data-restaurant-id="1"]').focus();
+    await page.keyboard.press("Space");
+    assert.equal(
+      await page
+        .locator('[data-restaurant-id="1"]')
+        .getAttribute("aria-pressed"),
+      "true",
+    );
+    assert.equal(
+      await page
+        .locator('[data-restaurant-id="1"]')
+        .evaluate((button) => button === document.activeElement),
+      true,
+    );
+    await page.locator("#favorites-only").check();
+    assert.deepEqual(
+      await page.locator(".explorer-card h3").allTextContents(),
+      [names[0]],
+    );
+    await page.locator('[data-restaurant-id="1"]').click();
+    assert.equal(await page.locator("#explorer-empty").isVisible(), true);
+    assert.equal(
+      await page
+        .locator("#favorites-only")
+        .evaluate((checkbox) => checkbox === document.activeElement),
+      true,
+    );
+    assert.equal(
+      await page.evaluate(() => JSON.stringify(restaurants)),
+      original,
+    );
+    assert.deepEqual(errors, []);
+  } finally {
+    await page.close();
+  }
+});
+
+test("favorites persist only after opt in and turning remembering off removes the saved copy", async () => {
+  const { page, errors } = await openPage();
+  try {
+    await page.locator('[data-restaurant-id="3"]').click();
+    assert.equal(
+      await page.evaluate(() => localStorage.getItem(favoriteStorageKey)),
+      null,
+    );
+    await page.reload();
+    assert.equal(
+      await page
+        .locator('[data-restaurant-id="3"]')
+        .getAttribute("aria-pressed"),
+      "false",
+    );
+    await page.locator('[data-restaurant-id="3"]').click();
+    await page.locator("#remember-favorites").check();
+    assert.deepEqual(
+      await page.evaluate(() =>
+        JSON.parse(localStorage.getItem(favoriteStorageKey)),
+      ),
+      { version: 1, ids: [3] },
+    );
+    await page.reload();
+    assert.equal(await page.locator("#remember-favorites").isChecked(), true);
+    await page.locator("#favorites-only").check();
+    assert.deepEqual(
+      await page.locator(".explorer-card h3").allTextContents(),
+      [names[2]],
+    );
+    await page.locator("#reset-filters").click();
+    assert.equal(
+      await page
+        .locator('[data-restaurant-id="3"]')
+        .getAttribute("aria-pressed"),
+      "true",
+    );
+    await page.locator("#remember-favorites").uncheck();
+    assert.equal(
+      await page.evaluate(() => localStorage.getItem(favoriteStorageKey)),
+      null,
+    );
+    await page.reload();
+    assert.equal(
+      await page
+        .locator('[data-restaurant-id="3"]')
+        .getAttribute("aria-pressed"),
+      "false",
+    );
+    assert.deepEqual(errors, []);
+  } finally {
+    await page.close();
+  }
+});
+
+test("malformed favorites never enter the shortlist", async () => {
+  const { page, errors } = await openPage();
+  try {
+    for (const invalid of [
+      "broken json",
+      "null",
+      '{"version":9,"ids":[1]}',
+      '{"version":1,"ids":[999]}',
+      '{"version":1,"ids":["1"]}',
+    ]) {
+      await page.evaluate(
+        (stored) => localStorage.setItem(favoriteStorageKey, stored),
+        invalid,
+      );
+      await page.reload();
+      assert.equal(
+        await page.locator("#remember-favorites").isChecked(),
+        false,
+      );
+      assert.equal(
+        await page.locator('.favorite-button[aria-pressed="true"]').count(),
+        0,
+      );
+      assert.equal(await page.locator(".explorer-card").count(), 8);
+    }
+    assert.deepEqual(errors, []);
+  } finally {
+    await page.close();
+  }
+});
+
+test("blocked storage leaves the shortlist usable and explains write and removal failures", async () => {
+  const { page, errors } = await openPage();
+  try {
+    await page.evaluate(() => {
+      Storage.prototype.setItem = () => {
+        throw new DOMException("Blocked", "SecurityError");
+      };
+      Storage.prototype.removeItem = () => {
+        throw new DOMException("Blocked", "SecurityError");
+      };
+    });
+    await page.locator("#remember-favorites").check();
+    assert.match(
+      await page.locator("#storage-status").textContent(),
+      /could not save/,
+    );
+    await page.locator('[data-restaurant-id="2"]').click();
+    await page.locator("#favorites-only").check();
+    assert.deepEqual(
+      await page.locator(".explorer-card h3").allTextContents(),
+      [names[1]],
+    );
+    await page.locator("#remember-favorites").uncheck();
+    assert.match(
+      await page.locator("#storage-status").textContent(),
+      /could not remove/,
+    );
+    assert.deepEqual(errors, []);
+  } finally {
+    await page.close();
+  }
+});
+
+test("explorer preferences do not change the four class demonstration results", async () => {
+  const { page, errors } = await openPage();
+  try {
+    await page.locator("#search").fill("does not exist");
+    await page.locator("#favorites-only").check();
+    await page.locator("#sort").selectOption("rating");
+    assert.equal(await page.locator(".explorer-card").count(), 0);
+    for (const id of ["display", "filter", "map", "find"])
+      await page.locator(`#${id}-button`).click();
+    assert.deepEqual(
+      await page.locator("#restaurant-list .restaurant-name").allTextContents(),
+      names,
+    );
+    assert.deepEqual(
+      await page.locator("#filtered-list .restaurant-name").allTextContents(),
+      affordableNames,
+    );
+    assert.deepEqual(
+      await page.locator("#mapped-list li").allTextContents(),
+      names,
+    );
+    assert.equal(
+      await page.locator("#found-item .restaurant-name").textContent(),
+      names[3],
+    );
+    if (process.env.CAPTURE_PREVIEWS === "1")
+      await page.locator("#methods").screenshot({
+        path: path.join(root, "docs/assets/class-methods-1440.png"),
+      });
     assert.deepEqual(errors, []);
   } finally {
     await page.close();

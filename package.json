@@ -4,7 +4,7 @@
   "private": true,
   "description": "Restaurant array methods exercise and browser checks",
   "scripts": {
-    "check": "node --check tutorial_5_arrays/script.js && node --check tests/arrays.test.cjs && prettier --check .",
+    "check": "node --check tutorial_5_arrays/script.js && node --check tutorial_5_arrays/explorer.js && node --check tests/arrays.test.cjs && prettier --check .",
     "format": "prettier --write .",
     "test": "node --test tests/arrays.test.cjs"
   },

@@ -436,3 +436,237 @@ footer {
     scroll-behavior: auto;
   }
 }
+
+/* The explorer turns the shared collection into a searchable shortlist. */
+.explorer {
+  border-top: 1px solid var(--line);
+  margin-bottom: 56px;
+  padding-top: 32px;
+}
+.explorer-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+.explorer-heading h2 {
+  font:
+    400 38px/1.15 Georgia,
+    serif;
+  letter-spacing: -0.025em;
+  margin: 0;
+}
+.explorer-heading .eyebrow {
+  margin-bottom: 8px;
+}
+.explorer-heading a {
+  font-size: 12px;
+  font-weight: 600;
+  text-underline-offset: 4px;
+}
+.explorer-description {
+  color: var(--muted);
+  font-size: 14px;
+  margin: 14px 0 24px;
+}
+.explorer-controls {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: white;
+}
+.explorer-controls label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.explorer-controls .search-field {
+  grid-column: 1 / -1;
+}
+input[type="search"],
+select {
+  width: 100%;
+  min-width: 0;
+  border: 1px solid #9dafb9;
+  padding: 11px 12px;
+  border-radius: 6px;
+  font: inherit;
+  font-size: 14px;
+  background: #fff;
+  color: var(--ink);
+}
+.explorer-options {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.check-label,
+.explorer-controls .check-label {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+}
+input[type="checkbox"] {
+  width: 17px;
+  height: 17px;
+  margin: 0;
+  accent-color: var(--accent);
+}
+.quiet-button {
+  width: auto;
+  padding: 8px 12px;
+  background: #e8f2f3;
+  color: var(--accent-dark);
+  border: 1px solid #bad2d6;
+  font-size: 12px;
+}
+.quiet-button:hover {
+  background: #d6e8eb;
+}
+.explorer-summary {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: baseline;
+  margin: 20px 0 16px;
+  font-size: 12px;
+}
+.explorer-summary p {
+  margin: 0;
+  font-weight: 700;
+}
+.explorer-summary span {
+  color: var(--muted);
+}
+.explorer-results {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+.explorer-card {
+  display: flex;
+  flex-direction: column;
+  padding: 22px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+}
+.cuisine-tag {
+  color: var(--accent-dark);
+  background: #e8f2f3;
+  padding: 4px 8px;
+  border-radius: 5px;
+}
+.card-rating {
+  font-weight: 700;
+}
+.explorer-card h3 {
+  font-size: 26px;
+  margin: 22px 0 10px;
+  overflow-wrap: anywhere;
+}
+.explorer-card p {
+  font-size: 12px;
+  color: var(--muted);
+  margin: 0 0 12px;
+}
+.explorer-card .card-specialties {
+  color: var(--accent-dark);
+}
+.explorer-card details {
+  margin-top: auto;
+}
+.explorer-card details p {
+  margin: 12px 0;
+}
+.favorite-button {
+  justify-content: center;
+  margin-top: 16px;
+  background: #f3f7fa;
+  border: 1px solid var(--line);
+  color: var(--accent-dark);
+  font-size: 12px;
+  padding: 10px;
+}
+.favorite-button:hover {
+  background: #e1edf1;
+}
+.favorite-button[aria-pressed="true"] {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+.explorer-empty {
+  padding: 32px;
+  text-align: center;
+  border: 1px dashed #9dafb9;
+  border-radius: 10px;
+}
+.explorer-empty h3 {
+  margin: 0 0 12px;
+}
+.explorer-empty p {
+  color: var(--muted);
+  font-size: 14px;
+}
+.explorer-empty button {
+  margin: auto;
+}
+.favorite-storage {
+  margin: 24px 0 18px;
+}
+.favorite-storage p {
+  font-size: 12px;
+  color: var(--muted);
+  margin: 8px 0 0;
+}
+.pipeline-note {
+  margin-top: 16px;
+}
+@media (max-width: 1000px) {
+  .explorer-results {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 760px) {
+  .explorer-heading {
+    display: block;
+  }
+  .explorer-heading a {
+    display: inline-block;
+    margin-top: 16px;
+  }
+  .explorer-controls {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: 18px;
+  }
+  .explorer-results {
+    grid-template-columns: 1fr;
+  }
+  .explorer-summary {
+    flex-direction: column;
+    gap: 4px;
+  }
+  .explorer-heading h2 {
+    font-size: 34px;
+  }
+}

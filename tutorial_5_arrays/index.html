@@ -11,6 +11,7 @@
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="style.css" />
     <script src="script.js" defer></script>
+    <script src="explorer.js" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#methods">Skip to array methods</a>
@@ -53,6 +54,120 @@
               <span>THE SOURCE</span><strong>8</strong><span>restaurants</span>
             </div>
           </div>
+        </section>
+        <section
+          id="explorer"
+          class="explorer"
+          aria-labelledby="explorer-title"
+        >
+          <div class="explorer-heading">
+            <div>
+              <p class="eyebrow">BEYOND THE EXERCISE</p>
+              <h2 id="explorer-title">Find your next table.</h2>
+            </div>
+            <a href="#methods">Jump to the four class tasks ↓</a>
+          </div>
+          <p class="explorer-description">
+            Search the supplied restaurant collection, combine your preferences,
+            and keep a shortlist.
+          </p>
+          <form
+            id="explorer-controls"
+            class="explorer-controls"
+            role="search"
+            aria-label="Restaurant preferences"
+          >
+            <label class="search-field"
+              >Search restaurants<input
+                id="search"
+                type="search"
+                placeholder="Name, cuisine, neighborhood, or specialty"
+                autocomplete="off"
+            /></label>
+            <label
+              >Cuisine<select id="cuisine">
+                <option value="">All cuisines</option>
+              </select></label
+            >
+            <label
+              >Maximum price<select id="price">
+                <option value="4">Any price</option>
+                <option value="1">$</option>
+                <option value="2">$$ or less</option>
+                <option value="3">$$$ or less</option>
+              </select></label
+            >
+            <label
+              >Minimum rating<select id="rating">
+                <option value="0">Any rating</option>
+                <option value="4.3">4.3 or higher</option>
+                <option value="4.5">4.5 or higher</option>
+                <option value="4.8">4.8 or higher</option>
+              </select></label
+            >
+            <label
+              >Sort by<select id="sort">
+                <option value="original">Original order</option>
+                <option value="rating">Highest rating</option>
+                <option value="price">Lowest price</option>
+                <option value="name">Name A to Z</option>
+              </select></label
+            >
+            <div class="explorer-options">
+              <label class="check-label"
+                ><input id="favorites-only" type="checkbox" />Only
+                favorites</label
+              ><button id="reset-filters" type="button" class="quiet-button">
+                Reset filters
+              </button>
+            </div>
+          </form>
+          <div class="explorer-summary">
+            <p
+              id="explorer-count"
+              role="status"
+              aria-live="polite"
+              aria-atomic="true"
+            ></p>
+            <span>Practice data · 8 restaurants</span>
+          </div>
+          <ul
+            id="explorer-results"
+            class="explorer-results"
+            aria-label="Matching restaurants"
+          ></ul>
+          <div id="explorer-empty" class="explorer-empty" hidden>
+            <h3>No restaurants match.</h3>
+            <p>
+              Try a broader search or reset the filters. Favorites appear after
+              you save a restaurant.
+            </p>
+            <button id="empty-reset" type="button" class="quiet-button">
+              Show all restaurants
+            </button>
+          </div>
+          <div class="favorite-storage">
+            <label class="check-label"
+              ><input id="remember-favorites" type="checkbox" />Remember
+              favorites on this browser</label
+            >
+            <p id="storage-status" role="status" aria-live="polite">
+              Favorites last until you reload. Remembering is optional.
+            </p>
+          </div>
+          <details class="pipeline-note">
+            <summary>See the data pipeline</summary>
+            <p>
+              The explorer combines <code>filter()</code> for preferences,
+              <code>toSorted()</code> for a new ordered array, and
+              <code>map()</code> for cards. Favorites store restaurant IDs
+              separately, so every source record stays unchanged.
+            </p>
+            <pre><code>const selected = selectRestaurants(
+  restaurants, readPreferences(), favoriteIds
+);
+selected.map(createRestaurantCard);</code></pre>
+          </details>
         </section>
         <div class="section-heading">
           <h2>Choose a perspective</h2>
