@@ -1,9 +1,6 @@
-// ============================================
-// TUTORIAL 5: ARRAY METHODS FOR DATA
-// From ONE element to MANY elements
-// ============================================
+"use strict";
 
-// Restaurant data - this is what we'll work with
+// Keep the supplied restaurant records as the shared source for every view.
 const restaurants = [
     {
         "id": 1,
@@ -95,157 +92,91 @@ const restaurants = [
     }
 ];
 
-// Wait for the page to load
-document.addEventListener('DOMContentLoaded', (event) => {
-    console.log('Tutorial 5: Array methods ready!');
-    console.log(`We have ${restaurants.length} restaurants to work with`);
-    
-    // ============================================
-    // METHOD 1: forEach - DO SOMETHING WITH EACH ITEM
-    // ============================================
-    
-    // Goal: Display all restaurants in the list area
-    // forEach is like Tutorial 4's single element work, but for ALL items
-    
-    const displayButton = document.querySelector('#display-button');
-    const restaurantList = document.querySelector('#restaurant-list');
-    
-    displayButton.addEventListener('click', () => {
-        // Step 1: Clear the existing content
-        restaurantList.innerHTML = '';
-
-        // Step 2: Use forEach to go through each restaurant
-        restaurants.forEach((resto, index) => {
-            restaurantList.innerHTML += `<div>${resto.name}</div>`
-        })
-        
-        // Step 3: For each restaurant, create HTML and add it to the list
-        // Hint: Create a div with restaurant.name and restaurant.cuisine
-        // Hint: Use restaurantList.innerHTML += to add each one
-        
-        // YOUR CODE HERE:
-        
-        
-        console.log('Displayed all restaurants using forEach');
-    });
-    
-    // ============================================
-    // METHOD 2: filter - GET ITEMS THAT MATCH CRITERIA
-    // ============================================
-    
-    // Goal: Show only restaurants with "$" or "$$" price range
-    // filter creates a NEW array with only items that match your condition
-    
-    const filterButton = document.querySelector('#filter-button');
-    const filteredList = document.querySelector('#filtered-list');
-    
-    filterButton.addEventListener('click', (event) =>{
-        // Step 1: Use filter to get only cheap restaurants
-        // Hint: const cheapRestaurants = restaurants.filter((restaurant) =>{ return condition; })
-        // Hint: Check if restaurant.priceRange is "$" or "$$"
-        
-        // Step 2: Display the filtered results
-        // Hint: Use forEach on the cheapRestaurants array
-        
-        // YOUR CODE HERE:
-        
-        
-        console.log('Showed cheap restaurants using filter');
-    });
-    
-    // ============================================
-    // METHOD 3: map - TRANSFORM EACH ITEM TO GET SPECIFIC DATA
-    // ============================================
-    
-    // Goal: Get just the names of all restaurants
-    // map creates a NEW array by transforming each item
-    
-    const mapButton = document.querySelector('#map-button');
-    const mappedList = document.querySelector('#mapped-list');
-    
-    mapButton.addEventListener('click', (event) => {
-        // Step 1: Use map to get just the restaurant names
-        // Hint: const names = restaurants.map((restaurant) =>{ return restaurant.name; })
-        
-        // Step 2: Display the names as a simple list
-        // Hint: Create a <ul> and add <li> for each name
-        // Hint: You can use forEach on the names array, or join() method
-        
-        // YOUR CODE HERE:
-        
-        
-        console.log('Showed restaurant names using map');
-    });
-    
-    // ============================================
-    // METHOD 4: find - GET ONE SPECIFIC ITEM
-    // ============================================
-    
-    // Goal: Find the restaurant with the highest rating (4.8)
-    // find returns the FIRST item that matches your condition
-    
-    const findButton = document.querySelector('#find-button');
-    const foundItem = document.querySelector('#found-item');
-    
-    findButton.addEventListener('click', (event) =>{
-        // Step 1: Use find to get the restaurant with rating 4.8
-        // Hint: const bestRestaurant = restaurants.find((restaurant) =>{ return condition; })
-        // Hint: Check if restaurant.rating === 4.8
-        
-        // Step 2: Display the found restaurant
-        // Hint: Check if bestRestaurant exists first
-        // Hint: Show the name, cuisine, and rating
-        
-        // YOUR CODE HERE:
-        
-        
-        console.log('Found best restaurant using find');
-    });
-    
-});
-
-// ============================================
-// HELPER FUNCTIONS FOR DEBUGGING
-// ============================================
-
-// Show what each method returns
-function demonstrateMethods() {
-    console.log('=== Method Demonstrations ===');
-    
-    // forEach - does something to each item, returns nothing
-    console.log('forEach example:');
-    restaurants.forEach((restaurant) =>{
-        console.log(`- ${restaurant.name} (${restaurant.cuisine})`);
-    });
-    
-    // filter - returns new array with matching items
-    const cheap = restaurants.filter((restaurant) =>{
-        return restaurant.priceRange === '$' || restaurant.priceRange === '$$';
-    });
-    console.log('filter example (cheap restaurants):', cheap.length, 'found');
-    
-    // map - returns new array with transformed items
-    const names = restaurants.map((restaurant) =>{
-        return restaurant.name;
-    });
-    console.log('map example (names):', names);
-    
-    // find - returns first matching item
-    const best = restaurants.find((restaurant) =>{
-        return restaurant.rating === 4.8;
-    });
-    console.log('find example (best):', best ? best.name : 'not found');
+/** Create a restaurant row without interpreting the data as HTML.
+ * @param {object} restaurant A supplied restaurant record.
+ * @param {boolean} showDetails Whether to include price and rating.
+ * @returns {HTMLLIElement} A new list item; the record is unchanged.
+ */
+function createRestaurantRow(restaurant, showDetails = false) {
+  const row = document.createElement("li");
+  row.className = "restaurant-item";
+  const name = document.createElement("strong");
+  name.className = "restaurant-name";
+  name.textContent = restaurant.name;
+  const cuisine = document.createElement("span");
+  cuisine.className = "restaurant-cuisine";
+  cuisine.textContent = restaurant.cuisine;
+  row.append(name, cuisine);
+  if (showDetails) {
+    const details = document.createElement("span");
+    details.className = "restaurant-details";
+    details.textContent = `${restaurant.priceRange} · ${restaurant.rating.toFixed(1)} / 5`;
+    row.append(details);
+  }
+  return row;
 }
 
-// Clear all displays
-function clearAllDisplays() {
-    document.querySelector('#restaurant-list').innerHTML = '<p class="placeholder">Click button to display all restaurants</p>';
-    document.querySelector('#filtered-list').innerHTML = '<p class="placeholder">Click button to show only affordable restaurants</p>';
-    document.querySelector('#mapped-list').innerHTML = '<p class="placeholder">Click button to show just the restaurant names</p>';
-    document.querySelector('#found-item').innerHTML = '<p class="placeholder">Click button to find the highest rated restaurant</p>';
-    console.log('All displays cleared');
+/** Display every name and cuisine using forEach. Returns undefined. */
+function displayAllRestaurants() {
+  const list = document.createElement("ul");
+  list.className = "restaurant-list";
+  restaurants.forEach((restaurant) => {
+    list.append(createRestaurantRow(restaurant));
+  });
+  document.querySelector("#restaurant-list").replaceChildren(list);
 }
 
-// Call these in the browser console:
-// demonstrateMethods() - see what each method does
-// clearAllDisplays() - reset all displays
+/** Select the $ and $$ records with filter, then render a new list. Returns undefined. */
+function displayAffordableRestaurants() {
+  const affordableRestaurants = restaurants.filter((restaurant) => {
+    return restaurant.priceRange === "$" || restaurant.priceRange === "$$";
+  });
+  const list = document.createElement("ul");
+  list.className = "restaurant-list";
+  affordableRestaurants.forEach((restaurant) => {
+    list.append(createRestaurantRow(restaurant, true));
+  });
+  const region = document.querySelector("#filtered-list");
+  if (affordableRestaurants.length === 0) {
+    region.textContent = "No restaurants match $ or $$.";
+    return;
+  }
+  region.replaceChildren(list);
+}
+
+/** Map the records to name strings and display a semantic list. Returns undefined. */
+function displayRestaurantNames() {
+  const names = restaurants.map((restaurant) => {
+    return restaurant.name;
+  });
+  const list = document.createElement("ul");
+  list.className = "name-list";
+  names.forEach((name) => {
+    const row = document.createElement("li");
+    row.textContent = name;
+    list.append(row);
+  });
+  document.querySelector("#mapped-list").replaceChildren(list);
+}
+
+/** Find the first exact 4.8 rating and render it or a missing result. Returns undefined. */
+function displayFeaturedRestaurant() {
+  const featuredRestaurant = restaurants.find((restaurant) => {
+    return restaurant.rating === 4.8;
+  });
+  const region = document.querySelector("#found-item");
+  if (!featuredRestaurant) {
+    region.textContent = "No restaurant has a rating of 4.8.";
+    return;
+  }
+  const list = document.createElement("ul");
+  list.className = "restaurant-list featured-list";
+  list.append(createRestaurantRow(featuredRestaurant, true));
+  region.replaceChildren(list);
+}
+
+// The existing starter controls keep each array method independently testable.
+document.querySelector("#display-button").addEventListener("click", displayAllRestaurants);
+document.querySelector("#filter-button").addEventListener("click", displayAffordableRestaurants);
+document.querySelector("#map-button").addEventListener("click", displayRestaurantNames);
+document.querySelector("#find-button").addEventListener("click", displayFeaturedRestaurant);
