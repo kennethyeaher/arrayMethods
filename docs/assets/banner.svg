@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="340" viewBox="0 0 1200 340" role="img" aria-labelledby="title desc">
+<title id="title">Table for eight</title><desc id="desc">Eight restaurants. Four perspectives. A JavaScript array methods exercise.</desc>
+<rect width="1200" height="340" rx="20" fill="#173a49"/>
+<path d="M54 50H740M54 290H740" stroke="#365867"/>
+<text x="56" y="87" font-family="Arial,sans-serif" font-size="12" letter-spacing="3" fill="#c1d6df">INST630 / THE RESTAURANT EDIT</text>
+<text x="54" y="158" font-family="Georgia,serif" font-size="64" fill="#ffffff">Table for eight.</text>
+<text x="57" y="207" font-family="Arial,sans-serif" font-size="23" fill="#d8e6ed">Eight restaurants. Four perspectives.</text>
+<text x="57" y="259" font-family="monospace" font-size="15" fill="#f4cc66">forEach()   ·   filter()   ·   map()   ·   find()</text>
+<circle cx="960" cy="170" r="104" fill="none" stroke="#365867"/><circle cx="960" cy="170" r="82" fill="#234b5b"/>
+<text x="960" y="202" text-anchor="middle" font-family="Georgia,serif" font-size="100" fill="#f4cc66">8</text>
+<g fill="#f3f7fa"><circle cx="960" cy="49" r="14"/><circle cx="1046" cy="84" r="14"/><circle cx="1081" cy="170" r="14"/><circle cx="1046" cy="256" r="14"/><circle cx="960" cy="291" r="14"/><circle cx="874" cy="256" r="14"/><circle cx="839" cy="170" r="14"/><circle cx="874" cy="84" r="14"/></g>
+</svg>
