@@ -211,7 +211,7 @@ function changeRemembering() {
     document.querySelector("#cuisine").append(option);
   });
 controls.addEventListener("input", renderExplorer);
-controls.addEventListener("change", renderExplorer);
+// Input covers text, selects, and checkboxes without replacing a card during search blur.
 controls.addEventListener("submit", (event) => event.preventDefault());
 results.addEventListener("click", toggleFavorite);
 document

@@ -351,6 +351,20 @@ test("explorer combines search, cuisine, budget, and rating, then resets", async
       await page.locator(".explorer-card h3").allTextContents(),
       ["Seoul Kitchen"],
     );
+    // Leaving the search field must not consume the first favorite click.
+    await page.locator('[data-restaurant-id="8"]').click();
+    assert.equal(
+      await page
+        .locator('[data-restaurant-id="8"]')
+        .getAttribute("aria-pressed"),
+      "true",
+    );
+    await page.locator("#favorites-only").check();
+    assert.deepEqual(
+      await page.locator(".explorer-card h3").allTextContents(),
+      ["Seoul Kitchen"],
+    );
+    await page.locator("#favorites-only").uncheck();
     await page.locator("#cuisine").selectOption("Italian");
     assert.equal(await page.locator("#explorer-empty").isVisible(), true);
     await page.locator("#empty-reset").click();
