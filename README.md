@@ -3,8 +3,8 @@
 </p>
 
 <p align="center">
-  <strong>A restaurant directory, viewed through four JavaScript array methods.</strong><br>
-  Visit every record, narrow the budget, collect the names, and find the 4.8 pick.
+  <strong>A restaurant explorer built around JavaScript array methods.</strong><br>
+  Search the collection, combine preferences, and keep a shortlist.
 </p>
 
 <p align="center">
@@ -25,14 +25,37 @@
 
 ## The interaction
 
-An INST630 Tutorial 5 exercise built from the supplied restaurant starter files. The original eight records and all four button/result IDs are preserved. Each button processes the same collection and updates its own result area. Repeating an action replaces that view instead of duplicating the output.
+An INST630 Tutorial 5 exercise built from the supplied restaurant starter files. The original eight records and all four button/result IDs are preserved. The explorer turns that collection into a searchable directory with combined filters, ordering, restaurant details, and a shortlist. The four class demonstrations stay independent below it. Each class button processes the complete source collection and updates its own result area, even when the explorer has no matches. Repeating an action replaces that view instead of duplicating the output.
 
-<img src="docs/assets/preview-1440.png" alt="Desktop restaurant exercise with all four results displayed: eight restaurants and cuisines, five affordable choices, eight names, and The Brass Elephant rated 4.8." width="100%">
+<img src="docs/assets/preview-1440.png" alt="Restaurant explorer with search, cuisine, maximum price, minimum rating, ordering, and eight restaurant cards with favorite controls." width="100%">
 
 <details>
 <summary><strong>See the mobile layout</strong></summary>
 <br>
-<p align="center"><img src="docs/assets/preview-390.png" alt="Mobile restaurant exercise with four method sections stacked in one column." width="320"></p>
+<p align="center"><img src="docs/assets/preview-390.png" alt="Mobile restaurant explorer with labeled filters and restaurant cards stacked in one column." width="320"></p>
+</details>
+
+## Beyond the brief
+
+| Extension                    | What it does                                                                                 | What it demonstrates                                                        |
+| ---------------------------- | -------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| **Live search**              | Matches names, cuisines, neighborhoods, and specialties; ignores case and surrounding spaces | Search across multiple record fields                                        |
+| **Combined preferences**     | Intersects cuisine, maximum price, minimum rating, and favorite selections                   | Composable predicates with `filter`                                         |
+| **Four ordering choices**    | Original order, highest rating, lowest price, or name A to Z                                 | Immutable sorting with `toSorted` and explicit tie breakers                 |
+| **Favorites**                | Adds or removes restaurants from a shortlist, with a saved count                             | Separate state in a `Set`, event delegation, and keyboard focus restoration |
+| **Optional remembering**     | Stores IDs locally only after opt in and restores validated favorites                        | Versioned storage, schema checks, and handling blocked storage              |
+| **Recovery from no matches** | Shows guidance and a reset action; resetting keeps favorites                                 | An empty state with a clear next action                                     |
+| **Restaurant details**       | Reveals supplied hours and practice phone numbers on request                                 | Progressive disclosure with native `details` controls                       |
+| **Independent class tasks**  | Always uses the full original collection for all four demonstrations                         | Separation between explorer preferences and assignment behavior             |
+
+Search and sorting are handled by `selectRestaurants(records, preferences, favorites)` in [`explorer.js`](tutorial_5_arrays/explorer.js). It returns a new array of record references. `renderExplorer()` maps those records to new DOM cards. The source records are never edited to mark a favorite or change their order.
+
+Favorites are temporary by default. **Remember favorites on this browser** stores only a version number and restaurant IDs in local storage. Turning it off removes the saved copy while keeping the current shortlist. A blocked browser storage operation produces specific guidance and leaves the in-memory shortlist usable. Filters and search terms are not persisted, and nothing is sent to a server.
+
+<details>
+<summary><strong>See all four class results</strong></summary>
+<br>
+<img src="docs/assets/class-methods-1440.png" alt="Independent class demonstrations showing eight names and cuisines, five affordable restaurants, eight names, and the first exact 4.8 match." width="100%">
 </details>
 
 ## Class requirements
@@ -117,9 +140,13 @@ To use an existing Google Chrome installation instead of downloading Chromium:
 BROWSER_CHANNEL=chrome npm test
 ```
 
-The **10 local browser checks passed in headless Google Chrome**. They cover:
+The **16 local browser checks passed in headless Google Chrome**. They cover:
 
 - Exact names, cuisines, affordable results, and the 4.8 match.
+- Combined explorer filters, specialty search, ordering, and resetting.
+- Favorites with keyboard activation and focus recovery.
+- Storage opt in, reload restoration, disabling, malformed data, and blocked writes or removal.
+- Independent class results while explorer filters produce no matches.
 - Repeat clicks without duplicates and a deeply frozen source dataset.
 - A missing 4.8 match, multiple matches, and empty data.
 - Literal rendering of text that looks like HTML.
@@ -142,7 +169,8 @@ arrayMethods/
 ├── index.html                  # Entry point to the exercise
 ├── tutorial_5_arrays/
 │   ├── index.html              # Four method sections and result areas
-│   ├── script.js               # Supplied data and array method functions
+│   ├── script.js               # Supplied data and four class demonstrations
+│   ├── explorer.js             # Combined queries, card rendering, favorites
 │   ├── style.css               # Responsive layout and focus styles
 │   └── favicon.svg             # Table mark
 ├── tests/arrays.test.cjs        # Browser behavior checks
@@ -153,12 +181,13 @@ arrayMethods/
 
 ## Scope and sources
 
-The restaurant names, ratings, prices, and contact fields are supplied practice data from **Tutorial 5: Array Methods for Data**, not verified restaurant information. The exercise has no backend, analytics, persistent storage, or network requests. The README badges are external images; the exercise itself uses local assets and system fonts.
+The restaurant names, ratings, prices, and contact fields are supplied practice data from **Tutorial 5: Array Methods for Data**, not verified restaurant information. The exercise has no backend, analytics, or network requests. Optional browser storage holds favorite IDs only. It targets modern browsers that support `Array.prototype.toSorted`; older browsers need a copying sort alternative or a polyfill. The README badges are external images; the exercise itself uses local assets and system fonts.
 
 The starter is preserved in the first commit. Later commits record implementation, interface work, verification, and documentation. No license has been added to the supplied course materials because redistribution rights have not been established.
 
 - [MDN: forEach](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach)
 - [MDN: filter](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter)
 - [MDN: map](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map)
+- [MDN: toSorted](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/toSorted)
 - [MDN: find](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find)
 - Jenifer Tidwell, Charles Brewer, and Aynne Valencia. _Designing Interfaces: Patterns for Effective Interaction Design_, third edition. O'Reilly Media, 2020. Chapter 4, _Titled Sections_.
