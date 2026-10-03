@@ -193,3 +193,14 @@ The starter is preserved in the first commit. Later commits record implementatio
 - [MDN: toSorted](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/toSorted)
 - [MDN: find](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find)
 - Jenifer Tidwell, Charles Brewer, and Aynne Valencia. _Designing Interfaces: Patterns for Effective Interaction Design_, third edition. O'Reilly Media, 2020. Chapter 4, _Titled Sections_.
+
+---
+
+## Author
+
+**Kenneth Yeaher**<br>
+MS in Human Computer Interaction<br>
+University of Maryland, College Park<br>
+[![LinkedIn: Kenneth Yeaher](https://img.shields.io/badge/LinkedIn-Kenneth_Yeaher-0A66C2?style=flat)](https://www.linkedin.com/in/kennethyeaher/)
+
+`JavaScript` · `Array Methods` · `Functional Programming` · `DOM Manipulation` · `HTML5` · `CSS` · `Responsive Design` · `Search and Filtering` · `Immutable Sorting` · `Local Storage` · `Keyboard Accessibility` · `Playwright` · `Browser Testing` · `GitHub Actions`
