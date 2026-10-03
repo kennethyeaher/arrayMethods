@@ -1,85 +1,230 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Eight restaurants, four ways to look at them. An interactive JavaScript array methods exercise.">
-  <title>Table for eight | Array methods</title>
-  <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="style.css">
-  <script src="script.js" defer></script>
-</head>
-<body>
-  <a class="skip-link" href="#methods">Skip to array methods</a>
-  <div class="container">
-    <header class="masthead">
-      <a class="wordmark" href="./" aria-label="Table for eight home"><span class="brand-icon" aria-hidden="true">8</span> TABLE FOR EIGHT</a>
-      <span class="course-label">INST630 / TUTORIAL 05</span>
-    </header>
-    <main>
-      <section class="intro" aria-labelledby="page-title">
-        <div>
-          <p class="eyebrow">THE RESTAURANT EDIT</p>
-          <h1 id="page-title">One table.<br>Four perspectives.</h1>
-          <p class="intro-copy">Browse every restaurant, narrow the budget, collect the names, or find a standout. Same eight records. A different purpose each time.</p>
-          <a class="intro-link" href="#methods">Explore the methods <span aria-hidden="true">↓</span></a>
-        </div>
-        <div class="table-diagram" role="img" aria-label="Eight restaurant records around a table, shared by all four methods">
-          <span class="seat seat-1">01</span><span class="seat seat-2">02</span>
-          <span class="seat seat-3">03</span><span class="seat seat-4">04</span>
-          <span class="seat seat-5">05</span><span class="seat seat-6">06</span>
-          <span class="seat seat-7">07</span><span class="seat seat-8">08</span>
-          <div class="table-center"><span>THE SOURCE</span><strong>8</strong><span>restaurants</span></div>
-        </div>
-      </section>
-      <div class="section-heading"><h2>Choose a perspective</h2><p>Each button updates the result directly below it.</p></div>
-      <div id="methods" class="methods-grid">
-        <section class="method-section" aria-labelledby="all-title">
-          <div class="method-top"><span class="method-index">01 / VISIT EVERY ITEM</span><code>forEach()</code></div>
-          <h3 id="all-title">The full table</h3>
-          <p>Every restaurant, with its cuisine. Run one action for each record.</p>
-          <button id="display-button" type="button" aria-controls="restaurant-list">Display all restaurants <span aria-hidden="true">↗</span></button>
-          <div id="restaurant-list" class="result-area" role="status" aria-live="polite" aria-atomic="true"><p class="placeholder">Your full restaurant list will appear here.</p></div>
-          <details><summary>How forEach works</summary><p>Visits all eight records to create DOM elements. It returns <code>undefined</code>, so it is useful for actions rather than creating a new array.</p><pre><code>restaurants.forEach((restaurant) =&gt; {
-  list.append(createRestaurantRow(restaurant));
-});</code></pre></details>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Eight restaurants, four ways to look at them. An interactive JavaScript array methods exercise."
+    />
+    <title>Table for eight | Array methods</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#methods">Skip to array methods</a>
+    <div class="container">
+      <header class="masthead">
+        <a class="wordmark" href="./" aria-label="Table for eight home"
+          ><span class="brand-icon" aria-hidden="true">8</span> TABLE FOR
+          EIGHT</a
+        >
+        <span class="course-label">INST630 / TUTORIAL 05</span>
+      </header>
+      <main>
+        <section class="intro" aria-labelledby="page-title">
+          <div>
+            <p class="eyebrow">THE RESTAURANT EDIT</p>
+            <h1 id="page-title">One table.<br />Four perspectives.</h1>
+            <p class="intro-copy">
+              Browse every restaurant, narrow the budget, collect the names, or
+              find a standout. Same eight records. A different purpose each
+              time.
+            </p>
+            <a class="intro-link" href="#methods"
+              >Explore the methods <span aria-hidden="true">↓</span></a
+            >
+          </div>
+          <div
+            class="table-diagram"
+            role="img"
+            aria-label="Eight restaurant records around a table, shared by all four methods"
+          >
+            <span class="seat seat-1">01</span
+            ><span class="seat seat-2">02</span>
+            <span class="seat seat-3">03</span
+            ><span class="seat seat-4">04</span>
+            <span class="seat seat-5">05</span
+            ><span class="seat seat-6">06</span>
+            <span class="seat seat-7">07</span
+            ><span class="seat seat-8">08</span>
+            <div class="table-center">
+              <span>THE SOURCE</span><strong>8</strong><span>restaurants</span>
+            </div>
+          </div>
         </section>
-        <section class="method-section" aria-labelledby="budget-title">
-          <div class="method-top"><span class="method-index">02 / KEEP THE MATCHES</span><code>filter()</code></div>
-          <h3 id="budget-title">A smaller bill</h3>
-          <p>Only $ and $$ restaurants. Keep the records that meet the budget.</p>
-          <button id="filter-button" type="button" aria-controls="filtered-list">Show affordable restaurants <span aria-hidden="true">↗</span></button>
-          <div id="filtered-list" class="result-area" role="status" aria-live="polite" aria-atomic="true"><p class="placeholder">Your affordable picks will appear here.</p></div>
-          <details><summary>How filter works</summary><p>Returns a new array of five matching records. The original array keeps all eight. Records are shared references, not deep copies.</p><pre><code>restaurants.filter((restaurant) =&gt; {
+        <div class="section-heading">
+          <h2>Choose a perspective</h2>
+          <p>Each button updates the result directly below it.</p>
+        </div>
+        <div id="methods" class="methods-grid">
+          <section class="method-section" aria-labelledby="all-title">
+            <div class="method-top">
+              <span class="method-index">01 / VISIT EVERY ITEM</span
+              ><code>forEach()</code>
+            </div>
+            <h3 id="all-title">The full table</h3>
+            <p>
+              Every restaurant, with its cuisine. Run one action for each
+              record.
+            </p>
+            <button
+              id="display-button"
+              type="button"
+              aria-controls="restaurant-list"
+            >
+              Display all restaurants <span aria-hidden="true">↗</span>
+            </button>
+            <div
+              id="restaurant-list"
+              class="result-area"
+              role="status"
+              aria-live="polite"
+              aria-atomic="true"
+            >
+              <p class="placeholder">
+                Your full restaurant list will appear here.
+              </p>
+            </div>
+            <details>
+              <summary>How forEach works</summary>
+              <p>
+                Visits all eight records to create DOM elements. It returns
+                <code>undefined</code>, so it is useful for actions rather than
+                creating a new array.
+              </p>
+              <pre><code>restaurants.forEach((restaurant) =&gt; {
+  list.append(createRestaurantRow(restaurant));
+});</code></pre>
+            </details>
+          </section>
+          <section class="method-section" aria-labelledby="budget-title">
+            <div class="method-top">
+              <span class="method-index">02 / KEEP THE MATCHES</span
+              ><code>filter()</code>
+            </div>
+            <h3 id="budget-title">A smaller bill</h3>
+            <p>
+              Only $ and $$ restaurants. Keep the records that meet the budget.
+            </p>
+            <button
+              id="filter-button"
+              type="button"
+              aria-controls="filtered-list"
+            >
+              Show affordable restaurants <span aria-hidden="true">↗</span>
+            </button>
+            <div
+              id="filtered-list"
+              class="result-area"
+              role="status"
+              aria-live="polite"
+              aria-atomic="true"
+            >
+              <p class="placeholder">Your affordable picks will appear here.</p>
+            </div>
+            <details>
+              <summary>How filter works</summary>
+              <p>
+                Returns a new array of five matching records. The original array
+                keeps all eight. Records are shared references, not deep copies.
+              </p>
+              <pre><code>restaurants.filter((restaurant) =&gt; {
   return restaurant.priceRange === "$" ||
     restaurant.priceRange === "$$";
-});</code></pre></details>
-        </section>
-        <section class="method-section" aria-labelledby="names-title">
-          <div class="method-top"><span class="method-index">03 / TRANSFORM THE ITEMS</span><code>map()</code></div>
-          <h3 id="names-title">Just the names</h3>
-          <p>Eight records become eight strings. A simple list without the extra detail.</p>
-          <button id="map-button" type="button" aria-controls="mapped-list">Show restaurant names <span aria-hidden="true">↗</span></button>
-          <div id="mapped-list" class="result-area" role="status" aria-live="polite" aria-atomic="true"><p class="placeholder">Your list of names will appear here.</p></div>
-          <details><summary>How map works</summary><p>Returns a new array containing only name strings, in the original order. The records remain unchanged.</p><pre><code>restaurants.map((restaurant) =&gt; {
+});</code></pre>
+            </details>
+          </section>
+          <section class="method-section" aria-labelledby="names-title">
+            <div class="method-top">
+              <span class="method-index">03 / TRANSFORM THE ITEMS</span
+              ><code>map()</code>
+            </div>
+            <h3 id="names-title">Just the names</h3>
+            <p>
+              Eight records become eight strings. A simple list without the
+              extra detail.
+            </p>
+            <button id="map-button" type="button" aria-controls="mapped-list">
+              Show restaurant names <span aria-hidden="true">↗</span>
+            </button>
+            <div
+              id="mapped-list"
+              class="result-area"
+              role="status"
+              aria-live="polite"
+              aria-atomic="true"
+            >
+              <p class="placeholder">Your list of names will appear here.</p>
+            </div>
+            <details>
+              <summary>How map works</summary>
+              <p>
+                Returns a new array containing only name strings, in the
+                original order. The records remain unchanged.
+              </p>
+              <pre><code>restaurants.map((restaurant) =&gt; {
   return restaurant.name;
-});</code></pre></details>
-        </section>
-        <section class="method-section" aria-labelledby="featured-title">
-          <div class="method-top"><span class="method-index">04 / RETURN ONE MATCH</span><code>find()</code></div>
-          <h3 id="featured-title">The 4.8 pick</h3>
-          <p>Find the first restaurant rated exactly 4.8 and see its details.</p>
-          <button id="find-button" type="button" aria-controls="found-item">Find the 4.8 restaurant <span aria-hidden="true">↗</span></button>
-          <div id="found-item" class="result-area" role="status" aria-live="polite" aria-atomic="true"><p class="placeholder">Your featured restaurant will appear here.</p></div>
-          <details><summary>How find works</summary><p>Returns The Brass Elephant, the first matching record. It returns <code>undefined</code> if no rating matches. This is an exact rating lookup, not a general maximum calculation.</p><pre><code>restaurants.find((restaurant) =&gt; {
+});</code></pre>
+            </details>
+          </section>
+          <section class="method-section" aria-labelledby="featured-title">
+            <div class="method-top">
+              <span class="method-index">04 / RETURN ONE MATCH</span
+              ><code>find()</code>
+            </div>
+            <h3 id="featured-title">The 4.8 pick</h3>
+            <p>
+              Find the first restaurant rated exactly 4.8 and see its details.
+            </p>
+            <button id="find-button" type="button" aria-controls="found-item">
+              Find the 4.8 restaurant <span aria-hidden="true">↗</span>
+            </button>
+            <div
+              id="found-item"
+              class="result-area"
+              role="status"
+              aria-live="polite"
+              aria-atomic="true"
+            >
+              <p class="placeholder">
+                Your featured restaurant will appear here.
+              </p>
+            </div>
+            <details>
+              <summary>How find works</summary>
+              <p>
+                Returns The Brass Elephant, the first matching record. It
+                returns <code>undefined</code> if no rating matches. This is an
+                exact rating lookup, not a general maximum calculation.
+              </p>
+              <pre><code>restaurants.find((restaurant) =&gt; {
   return restaurant.rating === 4.8;
-});</code></pre></details>
-        </section>
-      </div>
-      <aside class="learning-note"><strong>Different intent. Same source.</strong><p><code>filter</code> selects. <code>map</code> transforms. <code>find</code> looks up one record. <code>forEach</code> performs an action. These examples change the presentation without changing the restaurant data.</p></aside>
-    </main>
-    <footer><span>Table for eight · Kenneth Yeaher</span><span>Supplied practice data, not a live restaurant guide.</span></footer>
-    <noscript><p>This exercise needs JavaScript enabled for the four buttons to display results.</p></noscript>
-  </div>
-</body>
+});</code></pre>
+            </details>
+          </section>
+        </div>
+        <aside class="learning-note">
+          <strong>Different intent. Same source.</strong>
+          <p>
+            <code>filter</code> selects. <code>map</code> transforms.
+            <code>find</code> looks up one record. <code>forEach</code> performs
+            an action. These examples change the presentation without changing
+            the restaurant data.
+          </p>
+        </aside>
+      </main>
+      <footer>
+        <span>Table for eight · Kenneth Yeaher</span
+        ><span>Supplied practice data, not a live restaurant guide.</span>
+      </footer>
+      <noscript
+        ><p>
+          This exercise needs JavaScript enabled for the four buttons to display
+          results.
+        </p></noscript
+      >
+    </div>
+  </body>
 </html>
